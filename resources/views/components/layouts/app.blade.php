@@ -4,29 +4,33 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ $title ?? 'Laravel' }}</title>
+        <title>{{ $headerTitle ?? 'Laravel' }}</title>
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="antialiased">
+    <body>
         <div class="app">
-            <div class="container">
 
-                <div class="appHeader">
-                    {{ $title ?? 'Laravel' }}
-                </div>
+            <div>
 
-                <div class="appBody">
+                @if(isset($title))
+                    <div>
+                        {{ $title ?? 'Laravel' }}
+                    </div>
+                @endif
+
+                <div>
                     {{ $slot }}
                 </div>
 
                 @if(isset($footer))
-                    <div class="appFooter">
+                    <div>
                         {{ $footer }}
                     </div>
                 @endif
 
             </div>
+
         </div>
     </body>
 </html>
