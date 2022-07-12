@@ -6,6 +6,8 @@
 
         <title>{{ $headerTitle ?? 'Laravel' }}</title>
 
+        <livewire:styles />
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body>
@@ -32,5 +34,8 @@
             </div>
 
         </div>
+
+        
+        <livewire:scripts />
     </body>
 </html>

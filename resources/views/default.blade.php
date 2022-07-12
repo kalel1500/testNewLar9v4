@@ -1,5 +1,8 @@
 <x-layouts.app>
     <div class="min-h-screen grid place-content-center bg-blue-400">
+        <div>
+            <livewire:counter/> 
+        </div>
         <div class="bg-red-500 py-3 px-10 rounded max-w-4xl grid gap-2">
             <div class="bg-green-300">Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae alias eos, similique ab nihil ut minus nostrum dignissimos cupiditate in. Mollitia beatae illum perspiciatis optio! In labore tempore maiores cupiditate.</div>
             <div class="bg-green-300">Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi voluptatem repellat dignissimos officiis commodi possimus quasi inventore, atque impedit? Expedita unde inventore quidem quam, possimus amet beatae eligendi sequi fuga.
