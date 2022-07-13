@@ -14,6 +14,6 @@ use App\Http\Controllers\DefaultController;
 |
 */
 
-Route::get('/', [DefaultController::class, 'default']);
-Route::get('/tailwind', [DefaultController::class, 'tailwind']);
-Route::get('/livewire', [DefaultController::class, 'livewire']);
+Route::get('/', [DefaultController::class, 'default'])->name('default');
+Route::get('/tailwind', [DefaultController::class, 'tailwind'])->name('tailwind');
+Route::get('/livewire', [DefaultController::class, 'livewire'])->name('livewire');
