@@ -5,7 +5,6 @@ openUserMenu.addEventListener('click', function() {
     dropdownContent.classList.toggle('hidden');
 });
 
-
 let iconOpenMovilMenu = document.querySelector('#iconOpenMovilMenu');
 let iconCloseMovilMenu = document.querySelector('#iconCloseMovilMenu');
 let mobileMenu = document.querySelector('#mobile-menu');

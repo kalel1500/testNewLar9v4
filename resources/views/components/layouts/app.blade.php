@@ -13,7 +13,7 @@
     <body>
         <div class="app">
 
-            <x-layouts.navbar></x-layouts.app>
+            <x-navbar.nav></x-navbar.nav>
 
             <div>
 
