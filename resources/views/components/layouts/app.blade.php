@@ -13,6 +13,8 @@
     <body>
         <div class="app">
 
+            <x-layouts.navbar></x-layouts.app>
+
             <div>
 
                 @if(isset($title))
