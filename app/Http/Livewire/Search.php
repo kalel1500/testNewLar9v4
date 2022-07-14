@@ -19,6 +19,11 @@ class Search extends Component
         'search' => ['except' => '', 'as' => 's'],
         'page' => ['except' => 1, 'as' => 'p'],
     ];
+
+    public function updatingSearch()
+    {
+        $this->resetPage();
+    }
  
     public function render()
     {

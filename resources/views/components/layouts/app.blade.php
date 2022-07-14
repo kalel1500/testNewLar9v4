@@ -15,7 +15,7 @@
 
             <x-navbar.nav></x-navbar.nav>
 
-            <div>
+            <div class="pt-16">
 
                 @if(isset($title))
                     <div>

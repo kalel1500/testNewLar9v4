@@ -1,6 +1,6 @@
 <div class="bg-gray-50 py-3 px-10 rounded grid gap-2">
-    <input wire:model="search" type="search" placeholder="Search posts by title..." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
- 
+    <input wire:model.delay="search" type="search" placeholder="Search posts by title..." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+
     <h1 class="font-bold">Search Results:</h1>
  
     <div class="grid grid-cols-5 gap-4">
