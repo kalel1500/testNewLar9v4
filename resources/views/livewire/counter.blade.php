@@ -2,4 +2,12 @@
     <div>Hooola</div>
     <button wire:click="increment" class="h-10 px-5 m-2 text-indigo-100 duration-150 bg-indigo-700 rounded-lg hover:bg-indigo-800 active:ring active:transform active:translate-y-1 transition-all cursor-default">+</button>
     <h1 class="text-5xl">{{ $count }}</h1>
+
+    <hr>
+
+    <div class="text-black">
+        <input wire:model="text">
+        <div>{{ $text }}</div>
+    </div>
+
 </div>
