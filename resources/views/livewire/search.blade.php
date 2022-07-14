@@ -4,11 +4,17 @@
     <h1 class="font-bold">Search Results:</h1>
  
     <div class="grid grid-cols-5 gap-4">
-        @foreach($posts as $post)
-            <div class="shadow bg-gray-300">
+        @forelse($posts as $post)
+            <div class="shadow bg-gray-300" wire:loading.class.delay="opacity-50">
                 <div class="font-bold underline">{{ $post->title }}</div>
                 <div>{{ str($post->content)->limit(100) }}</div>
             </div>
-        @endforeach
+        @empty
+            <div>No hay resultados</div>
+        @endforelse
+    </div>
+    
+    <div>
+        {{ $posts->links() }}
     </div>
 </div>
