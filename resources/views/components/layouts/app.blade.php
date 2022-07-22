@@ -19,26 +19,32 @@
             <x-navbar.nav></x-navbar.nav>
             <!-- /End Navbar -->
 
-            <!-- Start Body Content -->
-            <div class="pt-16 bg-gray-100 flex flex-col h-screen">
+            @if($clear)
+                {{ $slot }}
+            @else
 
-                <!-- Header -->
-                <header class="py-5 px-10">
-                    <h2 class="text-2xl">{{ $title ?? 'Laravel' }}</h2>
-                </header>
+                <!-- Start Body Content -->
+                <div class="pt-16 bg-gray-100 flex flex-col h-screen">
 
-                <!-- Slot Content -->
-                <div class="py-5 px-10 bg-gray-200 flex-grow">
-                    {{ $slot }}
+                    <!-- Header -->
+                    <header class="py-5 px-10">
+                        <h2 class="text-2xl">{{ $title ?? 'Laravel' }}</h2>
+                    </header>
+
+                    <!-- Slot Content -->
+                    <div class="py-5 px-10 bg-gray-200 flex-grow">
+                        {{ $slot }}
+                    </div>
+
+                    <!-- Footer -->
+                    <footer class="py-5 px-10">
+                        Footer
+                    </footer>
+
                 </div>
+                <!-- End Body Content -->
 
-                <!-- Footer -->
-                <footer class="py-5 px-10">
-                    Footer
-                </footer>
-
-            </div>
-            <!-- End Body Content -->
+                @endif
 
         </div>
 

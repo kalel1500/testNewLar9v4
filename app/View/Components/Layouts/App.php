@@ -6,14 +6,16 @@ use Illuminate\View\Component;
 
 class App extends Component
 {
+    public bool $clear;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($clear = false)
     {
-        //
+        $this->clear = $clear;
     }
 
     /**

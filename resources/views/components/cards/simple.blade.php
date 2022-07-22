@@ -1,2 +1,2 @@
-<div class="p-2 my-2 bg-white">{{ $slot }}</div>
+<div {{ $attributes->merge(['class' => 'p-2 my-2 bg-white']) }}>{{ $slot }}</div>
     
