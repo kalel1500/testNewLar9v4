@@ -14,6 +14,7 @@
         @endforelse
     </div>
     
+    <!-- Links -->
     <div>
         {{ $posts->links() }}
     </div>

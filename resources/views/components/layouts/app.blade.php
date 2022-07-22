@@ -11,29 +11,34 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body>
+        
+        <!-- Start App Container -->
         <div class="app">
-
+        
+            <!-- Start Navbar -->
             <x-navbar.nav></x-navbar.nav>
+            <!-- /End Navbar -->
 
-            <div class="pt-16">
+            <!-- Start Body Content -->
+            <div class="pt-16 bg-gray-100 flex flex-col h-screen">
 
-                @if(isset($title))
-                    <div>
-                        {{ $title ?? 'Laravel' }}
-                    </div>
-                @endif
+                <!-- Header -->
+                <header class="py-5 px-10">
+                    <h2 class="text-2xl">{{ $title ?? 'Laravel' }}</h2>
+                </header>
 
-                <div>
+                <!-- Slot Content -->
+                <div class="py-5 px-10 bg-gray-200 flex-grow">
                     {{ $slot }}
                 </div>
 
-                @if(isset($footer))
-                    <div>
-                        {{ $footer }}
-                    </div>
-                @endif
+                <!-- Footer -->
+                <footer class="py-5 px-10">
+                    Footer
+                </footer>
 
             </div>
+            <!-- End Body Content -->
 
         </div>
 
