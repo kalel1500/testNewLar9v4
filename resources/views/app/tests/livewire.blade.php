@@ -1,6 +1,7 @@
 <x-layouts.app>
 
-    <x-cards.simple class="flex justify-center">
+    <x-cards.simple bodyClass="flex justify-center gap-2">
+        <livewire:counter/> 
         <livewire:counter/> 
     </x-cards.simple>
     

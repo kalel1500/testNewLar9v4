@@ -6,14 +6,16 @@ use Illuminate\View\Component;
 
 class Simple extends Component
 {
+    public $bodyClass;
+
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($bodyClass = null)
     {
-        //
+        $this->bodyClass = $bodyClass;
     }
 
     /**
