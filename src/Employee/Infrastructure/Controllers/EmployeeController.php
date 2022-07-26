@@ -5,7 +5,7 @@ namespace Src\Employee\Infrastructure\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Request;
 use Src\Employee\Application\UpdateSalaryUseCase;
-use Src\Employee\Infrastructure\Eloquent\EmployeeEloquentRepository;
+use Src\Employee\Infrastructure\Repositories\Eloquent\EmployeeEloquentRepository;
 
 class EmployeeController extends Controller
 {

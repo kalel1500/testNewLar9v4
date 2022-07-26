@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Src\Employee\Infrastructure\Eloquent;
-
+namespace Src\Employee\Infrastructure\Repositories\Eloquent;
 
 use Src\Employee\Infrastructure\Models\Employee;
 use Src\Employee\Domain\Contracts\EmployeeRepositoryContract;
