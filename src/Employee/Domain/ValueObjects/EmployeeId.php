@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Src\Employee\Domain\ValueObjects;
 
-use Src\Employee\Domain\Exceptions\IdNotFound;
+use Src\Shared\Domain\Exceptions\IdNotFound;
 
 final class EmployeeId
 {

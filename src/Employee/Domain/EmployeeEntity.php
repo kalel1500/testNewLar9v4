@@ -12,8 +12,8 @@ final class EmployeeEntity
 {
     private EmployeeId $id;
     private EmployeeHours $hoursWorker;
-    private EmployeeMoney $salary;
     private EmployeeMoney $pricePerHour;
+    private EmployeeMoney $salary;
 
     public function __construct(
         EmployeeId $id, 
@@ -75,6 +75,15 @@ final class EmployeeEntity
             new EmployeeHours($data['hoursWorker']),
             new EmployeeMoney($data['pricePerHour'])
         );
+    }
+
+    public static function create(
+        EmployeeId $id,
+        EmployeeHours $hoursWorker,
+        EmployeeMoney $pricePerHour
+    ): self
+    {
+        return new self($id, $hoursWorker, $pricePerHour);
     }
 
     public function calculateSalary(EmployeeHours $hoursWorker): void

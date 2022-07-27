@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Src\Employee\Domain\Exceptions;
+namespace Src\Shared\Domain\Exceptions;
 
 
 final class IdNotFound extends \DomainException

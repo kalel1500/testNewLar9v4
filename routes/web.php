@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DefaultController;
+use App\Http\Controllers\app\TestController;
 use Src\Employee\Infrastructure\Controllers\EmployeeController;
 
 /*
@@ -14,6 +15,9 @@ use Src\Employee\Infrastructure\Controllers\EmployeeController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// TESTS
+//Route::get('/testEloquent', [TestController::class, 'testEloquent'])->name('testEloquent');
 
 Route::get('/', [DefaultController::class, 'default'])->name('default');
 Route::get('/tailwind', [DefaultController::class, 'tailwind'])->name('tailwind');

@@ -9,6 +9,13 @@ use Src\Employee\Infrastructure\Repositories\Eloquent\EmployeeEloquentRepository
 
 class EmployeeController extends Controller
 {
+    private $repository;
+
+    public function __construct()
+    {
+        $this->repository = new EmployeeEloquentRepository();
+    }
+
     public function list(Request $request)
     {
         // Muestra listado de empleados
@@ -28,7 +35,7 @@ class EmployeeController extends Controller
         // Obtengo los empleados
         $employees = $request->input('employees');
 
-        $useCase = new UpdateSalaryUseCase(new EmployeeEloquentRepository());
+        $useCase = new UpdateSalaryUseCase($this->repository);
 
         foreach ($employees as $employee) {
             $useCase->execute(
