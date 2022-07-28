@@ -17,7 +17,7 @@ final class EmployeeHours
 
     public function __construct(int $hours)
     {
-        $this->hours = $this->validate($hours);
+        $this->validate($hours);
         $this->hours = $hours;
     }
 
