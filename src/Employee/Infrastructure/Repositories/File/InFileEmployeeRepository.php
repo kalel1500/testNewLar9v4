@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Src\Employee\Infrastructure;
+namespace Src\Employee\Infrastructure\Repositories\File;
 
 
 use Src\Employee\Domain\Contracts\EmployeeRepositoryContract;

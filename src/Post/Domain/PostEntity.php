@@ -13,7 +13,7 @@ use Src\Post\Domain\ValueObjects\PostTitle;
 final class PostEntity
 {
     public function __construct(
-        private ?PostId $id,
+        private PostId $id,
         private PostTitle $title,
         private PostContent $content,
         private PostPublished $is_published,
@@ -74,7 +74,7 @@ final class PostEntity
     }
 
     public static function create(
-        ?PostId $id,
+        PostId $id,
         PostTitle $title,
         PostContent $content,
         PostPublished $is_published,

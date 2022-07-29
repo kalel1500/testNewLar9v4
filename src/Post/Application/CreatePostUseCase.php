@@ -7,6 +7,7 @@ namespace Src\Post\Application;
 use Src\Post\Domain\Contracts\PostRepositoryContract;
 use Src\Post\Domain\PostEntity;
 use Src\Post\Domain\ValueObjects\PostContent;
+use Src\Post\Domain\ValueObjects\PostId;
 use Src\Post\Domain\ValueObjects\PostOwner;
 use Src\Post\Domain\ValueObjects\PostPublished;
 use Src\Post\Domain\ValueObjects\PostTitle;
@@ -27,12 +28,13 @@ final class CreatePostUseCase
         int $userId
     ): void
     {
+        $id             = new PostId(null);
         $title          = new PostTitle($title);
         $content        = new PostContent($content);
         $isPublished    = new PostPublished($isPublished);
         $userId         = new PostOwner($userId);
 
-        $user = PostEntity::create(null, $title, $content, $isPublished, $userId);
+        $user = PostEntity::create($id, $title, $content, $isPublished, $userId);
 
         $this->repository->save($user);
     }

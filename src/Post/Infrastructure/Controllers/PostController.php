@@ -3,8 +3,8 @@
 namespace Src\Post\Infrastructure\Controllers;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Request;
 use Src\Post\Application\CreatePostUseCase;
 use Src\Post\Application\DeletePostUseCase;
 use Src\Post\Application\GetPostByCriteriaUseCase;
@@ -22,12 +22,10 @@ class PostController extends Controller
         $this->repository = new PostEloquentRepository();
     }
 
-    public function getPost(Request $request)
+    public function getPost($id)
     {
-        $userId = (int)$request->id;
-
-        $getUserUseCase = new GetPostUseCase($this->repository);
-        $postEntity     = $getUserUseCase->__invoke($userId);
+        $getPostUseCase = new GetPostUseCase($this->repository);
+        $postEntity     = $getPostUseCase->__invoke($id);
     
         return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['post' => $postEntity]), Response::HTTP_OK);
         //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['post' => $postEntity]], Response::HTTP_OK);
@@ -37,8 +35,8 @@ class PostController extends Controller
     {
         $title  = $request->input('title');
 
-        $getUserUseCase = new GetPostByCriteriaUseCase($this->repository);
-        $postEntity     = $getUserUseCase->__invoke($title);
+        $getPostByCriteriaUseCase   = new GetPostByCriteriaUseCase($this->repository);
+        $postEntity                 = $getPostByCriteriaUseCase->__invoke($title);
         
         return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['post' => $postEntity]), Response::HTTP_OK);
         //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['post' => $postEntity]], Response::HTTP_OK);
@@ -48,19 +46,19 @@ class PostController extends Controller
     {
         $postTitle          = $request->input('title');
         $postContent        = $request->input('content');
-        $postIsPublished    = $request->input('is_published');
-        $postUserId         = $request->input('user_id');
+        $postIsPublished    = $request->input('is_published') ?? false;
+        $postUserId         = $request->input('user_id') ?? 1;
 
-        $createUserUseCase = new CreatePostUseCase($this->repository);
-        $createUserUseCase->__invoke(
+        $createPostUseCase = new CreatePostUseCase($this->repository);
+        $createPostUseCase->__invoke(
             $postTitle,
             $postContent,
             $postIsPublished,
             $postUserId
         );
 
-        $getUserByCriteriaUseCase = new GetPostByCriteriaUseCase($this->repository);
-        $newPost                  = $getUserByCriteriaUseCase->__invoke($postTitle);
+        $getPostByCriteriaUseCase = new GetPostByCriteriaUseCase($this->repository);
+        $newPost                  = $getPostByCriteriaUseCase->__invoke($postTitle);
 
         return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['post' => $newPost]), Response::HTTP_OK);
         //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['post' => $newPost]], Response::HTTP_OK);
@@ -78,8 +76,8 @@ class PostController extends Controller
         $postIsPublished    = $postEntity->is_published()->value();
         $postUserId         = $postEntity->user_id()->value();
 
-        $updateUserUseCase = new UpdatePostUseCase($this->repository);
-        $updateUserUseCase->__invoke(
+        $updatePostUseCase = new UpdatePostUseCase($this->repository);
+        $updatePostUseCase->__invoke(
             $postId,
             $userTitle,
             $userContent,
@@ -99,10 +97,10 @@ class PostController extends Controller
         // Obtengo los empleados
         $posts = $request->input('posts');
 
-        $useCase = new PublishPostUseCase($this->repository);
+        $publishPostUseCase = new PublishPostUseCase($this->repository);
 
         foreach ($posts as $post) {
-            $useCase->__invoke(
+            $publishPostUseCase->__invoke(
                 $post['id'],
                 $post['is_published']
             );
@@ -116,8 +114,8 @@ class PostController extends Controller
     {
         $postId = (int)$request->id;
 
-        $deleteUserUseCase = new DeletePostUseCase($this->repository);
-        $deleteUserUseCase->__invoke($postId);
+        $deletePostUseCase = new DeletePostUseCase($this->repository);
+        $deletePostUseCase->__invoke($postId);
     }
 
 }

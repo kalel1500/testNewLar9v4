@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DefaultController;
 use App\Http\Controllers\app\TestController;
 use Src\Employee\Infrastructure\Controllers\EmployeeController;
+use Src\Post\Infrastructure\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,7 @@ use Src\Employee\Infrastructure\Controllers\EmployeeController;
 
 // TESTS
 //Route::get('/testEloquent', [TestController::class, 'testEloquent'])->name('testEloquent');
+//Route::get('/testResponse', [TestController::class, 'testResponse'])->name('testResponse');
 
 Route::get('/', [DefaultController::class, 'default'])->name('default');
 Route::get('/tailwind', [DefaultController::class, 'tailwind'])->name('tailwind');
@@ -25,3 +27,10 @@ Route::get('/tailwind2', [DefaultController::class, 'tailwind2'])->name('tailwin
 Route::get('/livewire', [DefaultController::class, 'livewire'])->name('livewire');
 
 Route::get('/employees', [EmployeeController::class, 'list'])->name('list');
+
+Route::get('/getPost',              [PostController::class, 'getPost'])->name('getPost');
+Route::get('/getPostByCriteria',    [PostController::class, 'getPostByCriteria'])->name('getPostByCriteria');
+Route::post('/createPost',           [PostController::class, 'createPost'])->name('createPost');
+Route::put('/updatePost',           [PostController::class, 'updatePost'])->name('updatePost');
+Route::put('/publishManyPosts',     [PostController::class, 'publishManyPosts'])->name('publishManyPosts');
+Route::delete('/deletePost',           [PostController::class, 'deletePost'])->name('deletePost');

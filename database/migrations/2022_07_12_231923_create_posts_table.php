@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->fullText()->unique();
-            $table->text('content')->fullText();
+            $table->string('title')->fullText()->unique();      // Sin fullText para los test con SQLlite
+            $table->text('content')->fullText();                // Sin fullText para los test con SQLlite
             $table->boolean('is_published')->default(false);
-            $table->foreign('user_id')->default(1);
+            $table->foreignId('user_id')->default(1);
             $table->timestamps();
         });
     }
