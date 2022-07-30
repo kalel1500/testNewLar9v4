@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Src\Shared\Domain\Contracts;
+namespace Src\Shared\Domain\ValueObjects;
 
 use InvalidArgumentException;
 

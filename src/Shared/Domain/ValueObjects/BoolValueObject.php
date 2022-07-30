@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Src\Shared\Domain\Contracts;
+namespace Src\Shared\Domain\ValueObjects;
 
 use InvalidArgumentException;
 
-abstract class StringRequiredValueObject
+abstract class BoolValueObject
 {
     public function __construct(
-        protected string $value
+        protected bool|int $value
     )
     {
         $this->ensureIsValidId($value);
     }
 
-    public function value(): string
+    public function value(): bool|int
     {
         return $this->value;
     }
     
-    private function ensureIsValidId(string $value): void
+    private function ensureIsValidId(bool|int $value): void
     {
-        if ($value === '') {
+        if (!isValidBoolean($value)) {
             throw new InvalidArgumentException(sprintf('<%s> does not allow the value <%s>.', static::class, $value));
         }
     }
