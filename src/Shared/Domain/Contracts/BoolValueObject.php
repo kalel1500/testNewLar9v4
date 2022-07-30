@@ -15,7 +15,7 @@ abstract class BoolValueObject
         $this->ensureIsValidId($value);
     }
 
-    public function value(): bool
+    public function value(): bool|int
     {
         return $this->value;
     }

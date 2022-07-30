@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Src\Post\Application\CreatePostUseCase;
 use Src\Post\Application\DeletePostUseCase;
+use Src\Post\Application\GetAllPostsUseCase;
 use Src\Post\Application\GetPostByCriteriaUseCase;
 use Src\Post\Infrastructure\Repositories\Eloquent\PostEloquentRepository;
 use Src\Post\Application\GetPostUseCase;
@@ -20,6 +21,15 @@ class PostController extends Controller
     public function __construct()
     {
         $this->repository = new PostEloquentRepository();
+    }
+
+    public function getAllPosts()
+    {
+        $getAllPostsUseCase = new GetAllPostsUseCase($this->repository);
+        $allPosts     = $getAllPostsUseCase->__invoke();
+    
+        return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['allPosts' => $allPosts->toArray()]), Response::HTTP_OK);
+        //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['allPosts' => $allPosts->toArray()]], Response::HTTP_OK);
     }
 
     public function getPost($id)

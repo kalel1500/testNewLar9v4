@@ -7,6 +7,7 @@ namespace Src\Post\Infrastructure\Repositories\Eloquent;
 use Src\Post\Infrastructure\Models\Post as PostEloquentModel;
 use Src\Post\Domain\Contracts\PostRepositoryContract;
 use Src\Post\Domain\PostEntity;
+use Src\Post\Domain\ValueObjects\PostCollection;
 use Src\Post\Domain\ValueObjects\PostContent;
 use Src\Post\Domain\ValueObjects\PostId;
 use Src\Post\Domain\ValueObjects\PostOwner;
@@ -22,6 +23,27 @@ final class PostEloquentRepository implements PostRepositoryContract
         $this->eloquentModel = new PostEloquentModel();
     }
     
+    public function all(): PostCollection
+    {
+        $eloquentAllPosts = $this->eloquentModel->all();
+
+        $array = [];
+        foreach($eloquentAllPosts as $eloquentPost) {
+            $array[] = new PostEntity(
+                new PostId($eloquentPost->id),
+                new PostTitle($eloquentPost->title),
+                new PostContent($eloquentPost->content),
+                new PostPublished($eloquentPost->is_published),
+                new PostOwner($eloquentPost->user_id),
+            );
+        }
+
+        $result = new PostCollection(...$array);
+
+        // Return Domain User model
+        return $result;
+    }
+
     public function find(PostId $id): ?PostEntity
     {
         $eloquentPost = $this->eloquentModel->findOrFail($id->value());

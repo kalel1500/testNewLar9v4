@@ -9,8 +9,9 @@ use Src\Post\Domain\ValueObjects\PostId;
 use Src\Post\Domain\ValueObjects\PostOwner;
 use Src\Post\Domain\ValueObjects\PostPublished;
 use Src\Post\Domain\ValueObjects\PostTitle;
+use Src\Shared\Domain\Contracts\EntityContract;
 
-final class PostEntity
+final class PostEntity extends EntityContract
 {
     public function __construct(
         private PostId $id,

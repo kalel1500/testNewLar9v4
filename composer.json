@@ -28,7 +28,8 @@
             "Src\\": "src/"
         },
         "files": [
-            "src/Shared/Infrastructure/Helpers/general.php"
+            "src/Shared/Infrastructure/Helpers/GeneralInfrastructureHeplers.php",
+            "src/Shared/Domain/Helpers/GeneralDomainHeplers.php"
         ]
     },
     "autoload-dev": {

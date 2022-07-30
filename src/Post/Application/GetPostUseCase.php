@@ -17,8 +17,8 @@ final class GetPostUseCase
         $this->repository = $repository;
     }
 
-    public function __invoke(int $userId): ?PostEntity
+    public function __invoke(int $postId): ?PostEntity
     {
-        return $this->repository->find(new PostId($userId));
+        return $this->repository->find(new PostId($postId));
     }
 }

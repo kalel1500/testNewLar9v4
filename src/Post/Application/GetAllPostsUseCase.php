@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Src\Post\Application;
 
 use Src\Post\Domain\Contracts\PostRepositoryContract;
-use Src\Post\Domain\ValueObjects\PostId;
+use Src\Post\Domain\ValueObjects\PostCollection;
 
-final class DeletePostUseCase
+final class GetAllPostsUseCase
 {
     private $repository;
 
@@ -16,8 +16,8 @@ final class DeletePostUseCase
         $this->repository = $repository;
     }
 
-    public function __invoke(int $postId): void
+    public function __invoke(): PostCollection
     {
-        $this->repository->delete(new PostId($postId));
+        return $this->repository->all();
     }
 }

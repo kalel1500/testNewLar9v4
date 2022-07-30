@@ -28,4 +28,24 @@ class PostTest extends TestCase
         $this->assertEquals($post->title, $dataCreateProject['title']);
         $this->assertEquals($post->content, $dataCreateProject['content']);
     }
+
+    public function test_post_list_can_be_received()
+    {
+        $this->withoutExceptionHandling();
+
+        // Datos de prueba
+        Post::factory(5)->create();
+
+        // Metodo HTTP
+        $response = $this->get('/getAllPosts');
+
+        $response->assertOk();
+
+        $posts = Post::all();
+
+        // Comparar valores en la vista
+        $response->assertViewIs('app.post.list');
+        $response->assertViewHas('posts', $posts);
+    
+    }
 }

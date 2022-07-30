@@ -28,9 +28,10 @@ Route::get('/livewire', [DefaultController::class, 'livewire'])->name('livewire'
 
 Route::get('/employees', [EmployeeController::class, 'list'])->name('list');
 
+Route::get('/getAllPosts',          [PostController::class, 'getAllPosts'])->name('getPost');
 Route::get('/getPost',              [PostController::class, 'getPost'])->name('getPost');
 Route::get('/getPostByCriteria',    [PostController::class, 'getPostByCriteria'])->name('getPostByCriteria');
-Route::post('/createPost',           [PostController::class, 'createPost'])->name('createPost');
+Route::post('/createPost',          [PostController::class, 'createPost'])->name('createPost');
 Route::put('/updatePost',           [PostController::class, 'updatePost'])->name('updatePost');
 Route::put('/publishManyPosts',     [PostController::class, 'publishManyPosts'])->name('publishManyPosts');
-Route::delete('/deletePost',           [PostController::class, 'deletePost'])->name('deletePost');
+Route::delete('/deletePost',        [PostController::class, 'deletePost'])->name('deletePost');
