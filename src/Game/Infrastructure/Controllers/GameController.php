@@ -103,10 +103,11 @@ class GameController extends Controller
     /* ------------------------------------------------------------------------------ */
     /* ------------------------------------ VISTAS ---------------------------------- */
 
-    public function getAllPosts()
+    public function getAllPosts(?string $title)
     {
         $getAllPostsUseCase = new GetAllPostsUseCase($this->repository);
-        $allPosts     = $getAllPostsUseCase->__invoke();
+        $findPostsByCriteriaUseCase = new GetPostByCriteriaUseCase($this->repository);
+        $allPosts = (!is_null($title)) ? $findPostsByCriteriaUseCase($title) : $getAllPostsUseCase();
     
         return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['allPosts' => $allPosts->toArray()]), Response::HTTP_OK);
         //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['allPosts' => $allPosts->toArray()]], Response::HTTP_OK);
