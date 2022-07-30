@@ -23,7 +23,7 @@ class JsonPostController extends Controller
         $this->repository = $repository;
     }
 
-    public function getAllPosts(?string $title)
+    public function getAllPosts(?string $title = null)
     {
         $getAllPostsUseCase = new GetAllPostsUseCase($this->repository);
         $searchPostUseCase = new SearchPostUseCase($this->repository);

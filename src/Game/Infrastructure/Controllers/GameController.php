@@ -12,6 +12,7 @@ use Src\Game\Application\SearchGmeUseCase;
 use Src\Game\Application\StoreGameUseCase;
 use Src\Game\Application\UpdateGameUseCase;
 use Src\Game\Application\ViewsData\FormGameViewData;
+use Src\Game\Application\ViewsData\ListGamesViewData;
 use Src\Game\Infrastructure\Repositories\Eloquent\GameEloquentRepository;
 
 class GameController extends Controller
@@ -82,14 +83,14 @@ class GameController extends Controller
     /* ------------------------------------------------------------------------------ */
     /* ------------------------------------ VISTAS ---------------------------------- */
 
-    public function getAllGames(?string $title)
+    public function getAllGames(?string $title = null)
     {
         $getAllGamesUseCase = new GetAllGamesUseCase($this->repository);
         $searchGamesUseCase = new SearchGmeUseCase($this->repository);
         $games = (!is_null($title)) ? $searchGamesUseCase($title) : $getAllGamesUseCase();
-    
-        return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['games' => $games->toArray()]), Response::HTTP_OK);
-        //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['games' => $games->toArray()]], Response::HTTP_OK);
+
+        $viewData = new ListGamesViewData($games);
+        return view('app.game.list', compact('viewData'));
     }
 
     public function findGame(int $id)

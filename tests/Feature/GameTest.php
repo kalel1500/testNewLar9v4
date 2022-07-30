@@ -4,29 +4,53 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Src\Post\Infrastructure\Models\Post;
+use Src\Game\Application\ViewsData\ListGamesViewData;
+use App\Models\Game;
+use Src\Game\Infrastructure\Repositories\Eloquent\GameEloquentRepository;
 use Tests\TestCase;
 
 class GameTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_post_can_be_created()
+    public function test_game_can_be_created()
     {
         $this->withoutExceptionHandling();
 
-        $dataCreateProject = ['title' => 'Test Post', 'content' => 'Test Post'];
-        $response = $this->post('/createPost', $dataCreateProject);
+        $dataCreateGame = ['title' => 'Test Game', 'description' => 'Test Game'];
+        $response = $this->post('/game/store', $dataCreateGame);
 
         $response->assertOk();
 
-        $this->assertCount(1, Post::all());
+        $this->assertCount(1, Game::all());
 
-        $post = Post::query()->first();
+        $game = Game::query()->first();
 
         // Comparacion de valores
-        $this->assertEquals($post->title, $dataCreateProject['title']);
-        $this->assertEquals($post->content, $dataCreateProject['content']);
+        $this->assertEquals($game->title, $dataCreateGame['title']);
+        $this->assertEquals($game->description, $dataCreateGame['description']);
+    }
+    
+    public function test_game_list_can_be_received()
+    {
+        $this->withoutExceptionHandling();
+
+        // Datos de prueba
+        Game::factory(5)->create();
+
+        // Metodo HTTP
+        $response = $this->get('/game/list');
+
+        $response->assertOk();
+
+        $repo = new GameEloquentRepository();
+        $games = $repo->all();
+        $viewData = new ListGamesViewData($games);
+
+        // Comparar valores en la vista
+        $response->assertViewIs('app.game.list');
+        $response->assertViewHas('viewData', $viewData);
+    
     }
 
 }
