@@ -1,6 +1,6 @@
 <?php
 
-namespace Src\Post\Infrastructure\Controllers;
+namespace Src\Game\Infrastructure\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -15,7 +15,7 @@ use Src\Post\Application\UpdatePostUseCase;
 use Src\Post\Application\ViewsData\FormPostViewData;
 use Src\Post\Infrastructure\Repositories\Eloquent\PostEloquentRepository;
 
-class PostController extends Controller
+class GameController extends Controller
 {
     private $repository;
 
@@ -24,32 +24,8 @@ class PostController extends Controller
         $this->repository = $repository;
     }
 
-    public function getAllPosts()
-    {
-        $getAllPostsUseCase = new GetAllPostsUseCase($this->repository);
-        $allPosts     = $getAllPostsUseCase->__invoke();
-    
-        return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['allPosts' => $allPosts->toArray()]), Response::HTTP_OK);
-        //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['allPosts' => $allPosts->toArray()]], Response::HTTP_OK);
-    }
-
-    public function getPost($id)
-    {
-        $getPostUseCase = new GetPostUseCase($this->repository);
-        $postEntity     = $getPostUseCase->__invoke($id);
-    
-        return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['post' => $postEntity]), Response::HTTP_OK);
-        //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['post' => $postEntity]], Response::HTTP_OK);
-    }
-
-    public function getPostByCriteria($title)
-    {
-        $getPostByCriteriaUseCase   = new GetPostByCriteriaUseCase($this->repository);
-        $postEntity                 = $getPostByCriteriaUseCase->__invoke($title);
-        
-        return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['post' => $postEntity]), Response::HTTP_OK);
-        //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['post' => $postEntity]], Response::HTTP_OK);
-    }
+    /* ------------------------------------------------------------------------------ */
+    /* ----------------------------- REDIRECCIONES ---------------------------------- */
 
     public function createPost(Request $request)
     {
@@ -122,6 +98,36 @@ class PostController extends Controller
 
         $deletePostUseCase = new DeletePostUseCase($this->repository);
         $deletePostUseCase->__invoke($postId);
+    }
+
+    /* ------------------------------------------------------------------------------ */
+    /* ------------------------------------ VISTAS ---------------------------------- */
+
+    public function getAllPosts()
+    {
+        $getAllPostsUseCase = new GetAllPostsUseCase($this->repository);
+        $allPosts     = $getAllPostsUseCase->__invoke();
+    
+        return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['allPosts' => $allPosts->toArray()]), Response::HTTP_OK);
+        //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['allPosts' => $allPosts->toArray()]], Response::HTTP_OK);
+    }
+
+    public function getPost($id)
+    {
+        $getPostUseCase = new GetPostUseCase($this->repository);
+        $postEntity     = $getPostUseCase->__invoke($id);
+    
+        return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['post' => $postEntity]), Response::HTTP_OK);
+        //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['post' => $postEntity]], Response::HTTP_OK);
+    }
+
+    public function getPostByCriteria($title)
+    {
+        $getPostByCriteriaUseCase   = new GetPostByCriteriaUseCase($this->repository);
+        $postEntity                 = $getPostByCriteriaUseCase->__invoke($title);
+        
+        return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['post' => $postEntity]), Response::HTTP_OK);
+        //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['post' => $postEntity]], Response::HTTP_OK);
     }
 
     public function updateForm($id)
