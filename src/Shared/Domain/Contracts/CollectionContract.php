@@ -13,7 +13,8 @@ abstract class CollectionContract implements Countable, ArrayAccess, IteratorAgg
 {
     protected array $values;
 
-    public function count() : int {
+    public function count(): int
+    {
         return count($this->values);
     }
 
@@ -41,12 +42,18 @@ abstract class CollectionContract implements Countable, ArrayAccess, IteratorAgg
     {
         return new ArrayIterator($this->values);
     }
-    
-    public function toArray() : array {
+
+    public function toArray(): array
+    {
         $result = [];
-        foreach($this->values as $value) {
+        foreach ($this->values as $value) {
             array_push($result, $value->toArray());
         }
         return $result;
+    }
+
+    public function first()
+    {
+        return $this->values[0];
     }
 }

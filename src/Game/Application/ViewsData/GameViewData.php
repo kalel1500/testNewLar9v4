@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Src\Post\Application\ViewsData;
+namespace Src\Game\Application\ViewsData;
 
-use Src\Post\Domain\PostEntity;
+use Src\Game\Domain\GameEntity;
 
-final class PostViewData
+final class GameViewData
 {
     public function __construct(
-        public PostEntity $post,
+        public GameEntity $game,
     )
     {
     }

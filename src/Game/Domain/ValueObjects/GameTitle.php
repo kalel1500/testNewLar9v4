@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Src\Post\Domain\ValueObjects;
+namespace Src\Game\Domain\ValueObjects;
 
 use Src\Shared\Domain\ValueObjects\StringRequiredValueObject;
 
-final class PostTitle extends StringRequiredValueObject
+final class GameTitle extends StringRequiredValueObject
 {
 }

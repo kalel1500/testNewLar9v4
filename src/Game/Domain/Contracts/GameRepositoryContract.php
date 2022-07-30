@@ -2,21 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Src\Post\Domain\Contracts;
+namespace Src\Game\Domain\Contracts;
 
-use Src\Post\Domain\PostEntity;
-use Src\Post\Domain\ValueObjects\PostCollection;
-use Src\Post\Domain\ValueObjects\PostId;
-use Src\Post\Domain\ValueObjects\PostPublished;
-use Src\Post\Domain\ValueObjects\PostTitle;
+use Src\Game\Domain\GameEntity;
+use Src\Game\Domain\ValueObjects\GameCollection;
+use Src\Game\Domain\ValueObjects\GameId;
+use Src\Game\Domain\ValueObjects\GameTitle;
 
-interface PostRepositoryContract
+interface GameRepositoryContract
 {
-    public function all(): PostCollection;
-    public function find(PostId $postId): ?PostEntity;
-    public function findByCriteria(PostTitle $postTitle): ?PostEntity;
-    public function save(PostEntity $postEntity): void;
-    public function update(PostId $postId, PostEntity $postEntity): void;
-    public function delete(PostId $postId): void;
-    public function publish(PostId $postId, PostPublished $isPublished): void;
+    public function all(): GameCollection;
+    public function find(GameId $id): ?GameEntity;
+    public function sarch(GameTitle $title): GameCollection;
+    public function save(GameEntity $game): void;
+    public function update(GameId $id, GameEntity $game): void;
+    public function delete(GameId $id): void;
 }

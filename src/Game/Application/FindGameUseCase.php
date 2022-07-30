@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Src\Game\Application;
 
 use Src\Game\Domain\Contracts\GameRepositoryContract;
+use Src\Game\Domain\GameEntity;
 use Src\Game\Domain\ValueObjects\GameId;
 
-final class DeleteGameUseCase
+final class FindGameUseCase
 {
     private $repository;
 
@@ -16,8 +17,8 @@ final class DeleteGameUseCase
         $this->repository = $repository;
     }
 
-    public function __invoke(int $id): void
+    public function __invoke(int $id): ?GameEntity
     {
-        $this->repository->delete(new GameId($id));
+        return $this->repository->find(new GameId($id));
     }
 }

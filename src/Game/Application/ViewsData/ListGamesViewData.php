@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Src\Post\Application\ViewsData;
+namespace Src\Game\Application\ViewsData;
 
-use Src\Post\Domain\ValueObjects\PostCollection;
+use Src\Game\Domain\ValueObjects\GameCollection;
 
-final class ListPostsViewData
+final class ListGamesViewData
 {
     public function __construct(
-        public PostCollection $posts,
+        public GameCollection $games,
     )
     {
     }

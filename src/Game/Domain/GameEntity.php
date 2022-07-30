@@ -2,49 +2,49 @@
 
 declare(strict_types=1);
 
-namespace Src\Post\Domain;
+namespace Src\Game\Domain;
 
-use Src\Post\Domain\ValueObjects\PostContent;
-use Src\Post\Domain\ValueObjects\PostId;
-use Src\Post\Domain\ValueObjects\PostOwner;
-use Src\Post\Domain\ValueObjects\PostPublished;
-use Src\Post\Domain\ValueObjects\PostTitle;
+use Src\Game\Domain\ValueObjects\GameCompany;
+use Src\Game\Domain\ValueObjects\GameDescription;
+use Src\Game\Domain\ValueObjects\GameId;
+use Src\Game\Domain\ValueObjects\GameTitle;
+use Src\Game\Domain\ValueObjects\GameYear;
 use Src\Shared\Domain\Contracts\EntityContract;
 
-final class PostEntity extends EntityContract
+final class GameEntity extends EntityContract
 {
     public function __construct(
-        private PostId $id,
-        private PostTitle $title,
-        private PostContent $content,
-        private PostPublished $is_published,
-        private PostOwner $user_id,
+        private GameId $id,
+        private GameTitle $title,
+        private GameDescription $description,
+        private GameYear $year,
+        private GameCompany $company_id,
     ) {
     }
 
-    public function id(): PostId
+    public function id(): GameId
     {
         return $this->id;
     }
 
-    public function title(): PostTitle
+    public function title(): GameTitle
     {
         return $this->title;
     }
 
-    public function content(): PostContent
+    public function description(): GameDescription
     {
-        return $this->content;
+        return $this->description;
     }
 
-    public function is_published(): PostPublished
+    public function year(): GameYear
     {
-        return $this->is_published;
+        return $this->year;
     }
 
-    public function user_id(): PostOwner
+    public function company_id(): GameCompany
     {
-        return $this->user_id;
+        return $this->company_id;
     }
 
     public function toArray(): array
@@ -52,9 +52,9 @@ final class PostEntity extends EntityContract
         return [
             'id'            => $this->id()->value(),
             'title'         => $this->title()->value(),
-            'content'       => $this->content()->value(),
-            'is_published'  => $this->is_published()->value(),
-            'user_id'       => $this->user_id()->value(),
+            'description'   => $this->description()->value(),
+            'year'          => $this->year()->value(),
+            'company_id'    => $this->company_id()->value(),
         ];
     }
 
@@ -63,9 +63,9 @@ final class PostEntity extends EntityContract
         $array = [
             'id'            => $this->id()->value(),
             'title'         => $this->title()->value(),
-            'content'       => $this->content()->value(),
-            'is_published'  => $this->is_published()->value(),
-            'user_id'       => $this->user_id()->value(),
+            'description'   => $this->description()->value(),
+            'year'          => $this->year()->value(),
+            'company_id'    => $this->company_id()->value(),
         ];
         foreach ($fields as $field) {
             unset($array[$field]);
@@ -75,12 +75,12 @@ final class PostEntity extends EntityContract
     }
 
     public static function create(
-        PostId $id,
-        PostTitle $title,
-        PostContent $content,
-        PostPublished $is_published,
-        PostOwner $user_id,
+        GameId $id,
+        GameTitle $title,
+        GameDescription $description,
+        GameYear $year,
+        GameCompany $company_id,
     ): self {
-        return new self($id, $title, $content, $is_published, $user_id);
+        return new self($id, $title, $description, $year, $company_id);
     }
 }

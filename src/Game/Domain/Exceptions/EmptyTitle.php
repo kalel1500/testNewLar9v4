@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Src\Post\Domain\Exceptions;
+namespace Src\Game\Domain\Exceptions;
 
 final class EmptyTitle extends \DomainException
 {

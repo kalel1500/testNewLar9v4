@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Src\Post\Application;
+namespace Src\Game\Application;
 
-use Src\Post\Domain\Contracts\PostRepositoryContract;
-use Src\Post\Domain\PostEntity;
-use Src\Post\Domain\ValueObjects\PostContent;
-use Src\Post\Domain\ValueObjects\PostId;
-use Src\Post\Domain\ValueObjects\PostOwner;
-use Src\Post\Domain\ValueObjects\PostPublished;
-use Src\Post\Domain\ValueObjects\PostTitle;
+use Src\Game\Domain\Contracts\GameRepositoryContract;
+use Src\Game\Domain\GameEntity;
+use Src\Game\Domain\ValueObjects\GameCompany;
+use Src\Game\Domain\ValueObjects\GameDescription;
+use Src\Game\Domain\ValueObjects\GameId;
+use Src\Game\Domain\ValueObjects\GameTitle;
+use Src\Game\Domain\ValueObjects\GameYear;
 
-final class UpdatePostUseCase
+final class UpdateGameUseCase
 {
     private $repository;
 
-    public function __construct(PostRepositoryContract $repository)
+    public function __construct(GameRepositoryContract $repository)
     {
         $this->repository = $repository;
     }
@@ -24,19 +24,19 @@ final class UpdatePostUseCase
     public function __invoke(
         int $id,
         string $title,
-        string $content,
-        bool $isPublished,
-        int $userId
+        string $desciption,
+        int $year,
+        int $company_id
     ): void
     {
-        $id             = new PostId($id);
-        $title          = new PostTitle($title);
-        $content        = new PostContent($content);
-        $isPublished    = new PostPublished($isPublished);
-        $userId         = new PostOwner($userId);
+        $id             = new GameId($id);
+        $title          = new GameTitle($title);
+        $desciption     = new GameDescription($desciption);
+        $year           = new GameYear($year);
+        $company_id     = new GameCompany($company_id);
 
-        $post = PostEntity::create($id, $title, $content, $isPublished, $userId);
+        $game = GameEntity::create($id, $title, $desciption, $year, $company_id);
 
-        $this->repository->update($id, $post);
+        $this->repository->update($id, $game);
     }
 }

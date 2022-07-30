@@ -2,117 +2,116 @@
 
 declare(strict_types=1);
 
-namespace Src\Post\Infrastructure\Repositories\Eloquent;
+namespace Src\Game\Infrastructure\Repositories\Eloquent;
 
-use Src\Post\Infrastructure\Models\Post as PostEloquentModel;
-use Src\Post\Domain\Contracts\PostRepositoryContract;
-use Src\Post\Domain\PostEntity;
-use Src\Post\Domain\ValueObjects\PostCollection;
-use Src\Post\Domain\ValueObjects\PostContent;
-use Src\Post\Domain\ValueObjects\PostId;
-use Src\Post\Domain\ValueObjects\PostOwner;
-use Src\Post\Domain\ValueObjects\PostPublished;
-use Src\Post\Domain\ValueObjects\PostTitle;
+use Src\Game\Domain\Contracts\GameRepositoryContract;
+use Src\Game\Domain\GameEntity;
+use Src\Game\Domain\ValueObjects\GameCollection;
+use Src\Game\Domain\ValueObjects\GameCompany;
+use Src\Game\Domain\ValueObjects\GameDescription;
+use Src\Game\Domain\ValueObjects\GameId;
+use Src\Game\Domain\ValueObjects\GameTitle;
+use Src\Game\Domain\ValueObjects\GameYear;
+use Src\Game\Infrastructure\Models\Game as GameEloquentModel;
 
-final class PostEloquentRepository implements PostRepositoryContract
+final class GameEloquentRepository implements GameRepositoryContract
 {
     private $eloquentModel;
 
     public function __construct()
     {
-        $this->eloquentModel = new PostEloquentModel();
+        $this->eloquentModel = new GameEloquentModel();
     }
     
-    public function all(): PostCollection
+    public function all(): GameCollection
     {
-        $eloquentAllPosts = $this->eloquentModel->all();
+        $eloquentAllGames = $this->eloquentModel->all();
 
         $array = [];
-        foreach($eloquentAllPosts as $eloquentPost) {
-            $array[] = new PostEntity(
-                new PostId($eloquentPost->id),
-                new PostTitle($eloquentPost->title),
-                new PostContent($eloquentPost->content),
-                new PostPublished($eloquentPost->is_published),
-                new PostOwner($eloquentPost->user_id),
+        foreach($eloquentAllGames as $eloquentModel) {
+            $array[] = new GameEntity(
+                new GameId($eloquentModel->id),
+                new GameTitle($eloquentModel->title),
+                new GameDescription($eloquentModel->description),
+                new GameYear($eloquentModel->year),
+                new GameCompany($eloquentModel->company_id),
             );
         }
 
-        $result = new PostCollection(...$array);
+        $result = new GameCollection(...$array);
 
         // Return Domain User model
         return $result;
     }
 
-    public function find(PostId $id): ?PostEntity
+    public function find(GameId $id): ?GameEntity
     {
-        $eloquentPost = $this->eloquentModel->findOrFail($id->value());
+        $eloquentGame = $this->eloquentModel->findOrFail($id->value());
 
         // Return Domain User model
-        return new PostEntity(
-            new PostId($eloquentPost->id),
-            new PostTitle($eloquentPost->title),
-            new PostContent($eloquentPost->content),
-            new PostPublished($eloquentPost->is_published),
-            new PostOwner($eloquentPost->user_id),
+        return new GameEntity(
+            new GameId($eloquentGame->id),
+            new GameTitle($eloquentGame->title),
+            new GameDescription($eloquentGame->description),
+            new GameYear($eloquentGame->year),
+            new GameCompany($eloquentGame->company_id),
         );
     }
 
-    public function findByCriteria(PostTitle $title): ?PostEntity
+    public function sarch(GameTitle $title): GameCollection
     {
-        $eloquentPost = $this->eloquentModel
+        $eloquentGames = $this->eloquentModel
             ->where('title', $title->value())
-            ->firstOrFail();
+            ->orWhere('description', $title->value())
+            ->orWhere('year', $title->value())
+            ->get();
 
-        // Return Domain User model
-        return new PostEntity(
-            new PostId($eloquentPost->id),
-            new PostTitle($eloquentPost->title),
-            new PostContent($eloquentPost->content),
-            new PostPublished($eloquentPost->is_published),
-            new PostOwner($eloquentPost->user_id),
-        );
+        $array = [];
+        foreach($eloquentGames as $eloquentModel) {
+            $array[] = new GameEntity(
+                new GameId($eloquentModel->id),
+                new GameTitle($eloquentModel->title),
+                new GameDescription($eloquentModel->description),
+                new GameYear($eloquentModel->year),
+                new GameCompany($eloquentModel->company_id),
+            );
+        }
+
+        return new GameCollection(...$array);
     }
 
-    public function save(PostEntity $postEntity): void
+    public function save(GameEntity $game): void
     {
         /*$this->eloquentModel->create([
-            'title'         => $postEntity->title()->value(),
-            'content'       => $postEntity->content()->value(),
-            'is_published'  => $postEntity->is_published()->value(),
-            'user_id'       => $postEntity->user_id()->value(),
+            'title'         => $game->title()->value(),
+            'content'       => $game->content()->value(),
+            'is_published'  => $game->is_published()->value(),
+            'user_id'       => $game->user_id()->value(),
         ]);*/
 
-        $data = $postEntity->toArrayWithoutFields(['id']);
+        $data = $game->toArrayWithoutFields(['id']);
         $this->eloquentModel->create($data);
     }
 
-    public function update(PostId $id, PostEntity $postEntity): void
+    public function update(GameId $id, GameEntity $game): void
     {
         /*$this->eloquentModel
             ->findOrFail($id->value())
             ->update([
-                'title'         => $postEntity->title()->value(),
-                'content'       => $postEntity->content()->value(),
-                'isPublished'   => $postEntity->is_published()->value(),
+                'title'         => $game->title()->value(),
+                'content'       => $game->content()->value(),
+                'isPublished'   => $game->is_published()->value(),
             ]);*/
 
         $this->eloquentModel
             ->findOrFail($id->value())
-            ->update($postEntity->toArrayWithoutFields(['id', 'user_id']));
+            ->update($game->toArrayWithoutFields(['id', 'user_id']));
     }
 
-    public function delete(PostId $id): void
+    public function delete(GameId $id): void
     {
         $this->eloquentModel
             ->findOrFail($id->value())
             ->delete();
-    }
-
-    public function publish(PostId $id, PostPublished $is_published): void
-    {
-        $this->eloquentModel
-            ->findOrFail($id->value())
-            ->update(['is_published'   => $is_published->value()]);
     }
 }

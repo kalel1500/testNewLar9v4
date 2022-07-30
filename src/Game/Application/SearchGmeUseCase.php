@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace Src\Game\Application;
 
 use Src\Game\Domain\Contracts\GameRepositoryContract;
-use Src\Game\Domain\ValueObjects\GameId;
+use Src\Game\Domain\ValueObjects\GameCollection;
+use Src\Game\Domain\ValueObjects\GameTitle;
 
-final class DeleteGameUseCase
+final class SearchGmeUseCase
 {
     private $repository;
 
@@ -16,8 +17,8 @@ final class DeleteGameUseCase
         $this->repository = $repository;
     }
 
-    public function __invoke(int $id): void
+    public function __invoke(string $title): GameCollection
     {
-        $this->repository->delete(new GameId($id));
+        return $this->repository->sarch(new GameTitle($title));
     }
 }

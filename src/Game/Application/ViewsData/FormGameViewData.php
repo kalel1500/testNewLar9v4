@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Src\Post\Application\ViewsData;
+namespace Src\Game\Application\ViewsData;
 
-use Src\Post\Domain\PostEntity;
+use Src\Game\Domain\GameEntity;
 
-final class FormPostViewData
+final class FormGameViewData
 {
     public function __construct(
         public bool $isUpdate,
-        public PostEntity $postToUpdateEntity,
+        public GameEntity $game,
     )
     {
     }

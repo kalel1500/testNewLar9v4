@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Src\Post\Application;
+namespace Src\Game\Application;
 
-use Src\Post\Domain\Contracts\PostRepositoryContract;
-use Src\Post\Domain\ValueObjects\PostCollection;
+use Src\Game\Domain\Contracts\GameRepositoryContract;
+use Src\Game\Domain\ValueObjects\GameCollection;
 
-final class GetAllPostsUseCase
+final class GetAllGamesUseCase
 {
     private $repository;
 
-    public function __construct(PostRepositoryContract $repository)
+    public function __construct(GameRepositoryContract $repository)
     {
         $this->repository = $repository;
     }
 
-    public function __invoke(): PostCollection
+    public function __invoke(): GameCollection
     {
         return $this->repository->all();
     }
