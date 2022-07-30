@@ -22,11 +22,25 @@ class PostTest extends TestCase
 
         $this->assertCount(1, Post::all());
 
-        $post = Post::query()->first();
+        $newPost = Post::query()->select('id','title','content','is_published','user_id')->first();
 
         // Comparacion de valores
-        $this->assertEquals($post->title, $dataCreateProject['title']);
-        $this->assertEquals($post->content, $dataCreateProject['content']);
+        $this->assertEquals($newPost->title, $dataCreateProject['title']);
+        $this->assertEquals($newPost->content, $dataCreateProject['content']);
+        
+        
+        // Comparar la estructura de la respuesta
+        $response->assertJsonStructure([
+            'statusCode',
+            'message',
+            'data' => [
+                'post' => ['id', 'title', 'content', 'is_published', 'user_id']
+            ],
+        ]);
+
+        // Comprobar el valor del json
+        $shoudReceive = ['statusCode' => 0, 'message' => 'success', 'data' => ['post' => $newPost->toArray()]];
+        $response->assertExactJson($shoudReceive);
     }
 
     public function test_post_list_can_be_received()
@@ -41,13 +55,27 @@ class PostTest extends TestCase
 
         $response->assertOk();
 
-        //$posts = Post::all();
+        // Comparar la estructura de la respuesta
+        $response->assertJsonStructure([
+            'statusCode',
+            'message',
+            'data' => [
+                'posts' => [
+                    '*' => [
+                        'id',
+                        'title',
+                        'content',
+                        'is_published',
+                        'user_id',
+                    ]
+                ]
+            ],
+        ]);
 
-        // TODO Canals - mirar como comprobar json
-
-        // Comparar valores en la vista
-        //$response->assertViewIs('app.post.list');
-        //$response->assertViewHas('posts', $posts);
+        // Comprobar el valor del json
+        $posts = Post::query()->select('id','title','content','is_published','user_id')->get()->toArray();
+        $shoudReceive = ['statusCode' => 0, 'message' => 'success', 'data' => ['posts' => $posts]];
+        $response->assertExactJson($shoudReceive);
     
     }
 }

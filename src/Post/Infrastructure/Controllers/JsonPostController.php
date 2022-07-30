@@ -29,8 +29,8 @@ class JsonPostController extends Controller
         $searchPostUseCase = new SearchPostUseCase($this->repository);
         $posts = (!is_null($title)) ? $searchPostUseCase($title) : $getAllPostsUseCase();
         
-        return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['allPosts' => $posts->toArray()]), Response::HTTP_OK);
-        //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['allPosts' => $allPosts->toArray()]], Response::HTTP_OK);
+        return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['posts' => $posts->toArray()]), Response::HTTP_OK);
+        //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['posts' => $posts->toArray()]], Response::HTTP_OK);
     }
 
     public function findPost(int $id)
@@ -60,7 +60,7 @@ class JsonPostController extends Controller
         $searchPostUseCase = new SearchPostUseCase($this->repository);
         $newPost = $searchPostUseCase($title)->first();
 
-        return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['post' => $newPost]), Response::HTTP_OK);
+        return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['post' => $newPost->toArray()]), Response::HTTP_OK);
         //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['post' => $newPost]], Response::HTTP_OK);
     }
 
