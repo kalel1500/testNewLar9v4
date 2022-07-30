@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\app;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 class DefaultController extends Controller
 {
     public function default()
     {
-        return view('default');
+        return view('app.default');
     }
 
     public function tailwind()

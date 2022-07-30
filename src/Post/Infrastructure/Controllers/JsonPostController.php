@@ -12,10 +12,9 @@ use Src\Post\Application\GetPostByCriteriaUseCase;
 use Src\Post\Application\GetPostUseCase;
 use Src\Post\Application\PublishPostUseCase;
 use Src\Post\Application\UpdatePostUseCase;
-use Src\Post\Application\ViewsData\FormPostViewData;
 use Src\Post\Infrastructure\Repositories\Eloquent\PostEloquentRepository;
 
-class PostController extends Controller
+class JsonPostController extends Controller
 {
     private $repository;
 
@@ -122,14 +121,6 @@ class PostController extends Controller
 
         $deletePostUseCase = new DeletePostUseCase($this->repository);
         $deletePostUseCase->__invoke($postId);
-    }
-
-    public function updateForm($id)
-    {
-        $getPostUseCase = new GetPostUseCase($this->repository);
-        $postEntity = $getPostUseCase($id);
-        $viewData = new FormPostViewData(true, $postEntity);
-        return view('app.post.form', compact('viewData'));
     }
 
 }

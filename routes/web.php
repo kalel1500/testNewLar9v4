@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DefaultController;
+use App\Http\Controllers\app\DefaultController;
 use App\Http\Controllers\app\TestController;
 use Src\Employee\Infrastructure\Controllers\EmployeeController;
+use Src\Post\Infrastructure\Controllers\JsonPostController;
 use Src\Post\Infrastructure\Controllers\PostController;
 
 /*
@@ -28,10 +29,28 @@ Route::get('/livewire', [DefaultController::class, 'livewire'])->name('livewire'
 
 Route::get('/employees', [EmployeeController::class, 'list'])->name('list');
 
-Route::get('/getAllPosts',          [PostController::class, 'getAllPosts'])->name('getPost');
-Route::get('/getPost',              [PostController::class, 'getPost'])->name('getPost');
-Route::get('/getPostByCriteria',    [PostController::class, 'getPostByCriteria'])->name('getPostByCriteria');
-Route::post('/createPost',          [PostController::class, 'createPost'])->name('createPost');
-Route::put('/updatePost',           [PostController::class, 'updatePost'])->name('updatePost');
-Route::put('/publishManyPosts',     [PostController::class, 'publishManyPosts'])->name('publishManyPosts');
-Route::delete('/deletePost',        [PostController::class, 'deletePost'])->name('deletePost');
+
+/* ---------------------------------------------------------------------------------------------------------------- */
+/* -------------------------------------------------POSTS---------------------------------------------------------- */
+
+// HTTP Post Views
+Route::get('post/getAllPosts',                  [PostController::class, 'getAllPosts'])->name('getAllPosts');
+Route::get('post/getPost/{id}',                 [PostController::class, 'getPost'])->name('getPost');
+Route::get('post/getPostByCriteria/{title}',    [PostController::class, 'getPostByCriteria'])->name('getPostByCriteria');
+Route::get('post/create',                       [PostController::class, 'createForm'])->name('createForm');
+Route::get('post/edit/{id}',                    [PostController::class, 'updateForm'])->name('updateForm');
+// HTTP Post Actions
+Route::post('post/createPost',                  [PostController::class, 'createPost'])->name('createPost');
+Route::put('post/updatePost',                   [PostController::class, 'updatePost'])->name('updatePost');
+Route::put('post/publishManyPosts',             [PostController::class, 'publishManyPosts'])->name('publishManyPosts');
+Route::delete('post/deletePost',                [PostController::class, 'deletePost'])->name('deletePost');
+
+
+// JSON Post Actions
+Route::get('json/post/getAllPosts',             [JsonPostController::class, 'getAllPosts'])->name('json.getAllPosts');
+Route::get('json/post/getPost',                 [JsonPostController::class, 'getPost'])->name('json.getPost');
+Route::get('json/post/getPostByCriteria',       [JsonPostController::class, 'getPostByCriteria'])->name('json.getPostByCriteria');
+Route::post('json/post/createPost',             [JsonPostController::class, 'createPost'])->name('json.createPost');
+Route::put('json/post/updatePost',              [JsonPostController::class, 'updatePost'])->name('json.updatePost');
+Route::put('json/post/publishManyPosts',        [JsonPostController::class, 'publishManyPosts'])->name('json.publishManyPosts');
+Route::delete('json/post/deletePost',           [JsonPostController::class, 'deletePost'])->name('json.deletePost');
