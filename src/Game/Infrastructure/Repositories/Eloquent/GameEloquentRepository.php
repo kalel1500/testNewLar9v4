@@ -61,9 +61,9 @@ final class GameEloquentRepository implements GameRepositoryContract
     public function sarch(GameTitle $title): GameCollection
     {
         $eloquentGames = $this->eloquentModel
-            ->where('title', $title->value())
-            ->orWhere('description', $title->value())
-            ->orWhere('year', $title->value())
+            ->where('title', 'like', '%'.$title->value().'%')
+            ->orWhere('description', 'like', '%'.$title->value().'%')
+            ->orWhere('year', 'like', '%'.$title->value().'%')
             ->get();
 
         $array = [];

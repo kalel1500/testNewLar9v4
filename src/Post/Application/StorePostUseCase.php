@@ -12,7 +12,7 @@ use Src\Post\Domain\ValueObjects\PostOwner;
 use Src\Post\Domain\ValueObjects\PostPublished;
 use Src\Post\Domain\ValueObjects\PostTitle;
 
-final class CreatePostUseCase
+final class StorePostUseCase
 {
     private $repository;
 

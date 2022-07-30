@@ -48,7 +48,7 @@ class GameController extends Controller
         //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['game' => $newGame]], Response::HTTP_OK);
     }
 
-    public function updateGame(Request $request, $id)
+    public function updateGame(Request $request, int $id)
     {
         $findGameUseCase = new FindGameUseCase($this->repository);
         $game = $findGameUseCase($id);
@@ -73,10 +73,8 @@ class GameController extends Controller
         //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['game' => $updatedGame]], Response::HTTP_OK);
     }
 
-    public function deleteGame(Request $request)
+    public function deleteGame(int $id)
     {
-        $id = (int)$request->id;
-
         $deleteGameUseCase = new DeleteGameUseCase($this->repository);
         $deleteGameUseCase($id);
     }
@@ -94,7 +92,7 @@ class GameController extends Controller
         //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['games' => $games->toArray()]], Response::HTTP_OK);
     }
 
-    public function findGame($id)
+    public function findGame(int $id)
     {
         $findGameUseCase = new FindGameUseCase($this->repository);
         $game = $findGameUseCase($id);
@@ -103,7 +101,13 @@ class GameController extends Controller
         //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['game' => $game]], Response::HTTP_OK);
     }
 
-    public function updateForm($id)
+    public function createForm()
+    {
+        $viewData = new FormGameViewData(false, null);
+        return view('app.game.form', compact('viewData'));
+    }
+
+    public function updateForm(int $id)
     {
         $findGameUseCase = new FindGameUseCase($this->repository);
         $game = $findGameUseCase($id);

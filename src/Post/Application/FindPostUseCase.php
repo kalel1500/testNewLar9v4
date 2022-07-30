@@ -8,7 +8,7 @@ use Src\Post\Domain\Contracts\PostRepositoryContract;
 use Src\Post\Domain\PostEntity;
 use Src\Post\Domain\ValueObjects\PostId;
 
-final class GetPostUseCase
+final class FindPostUseCase
 {
     private $repository;
 
@@ -17,8 +17,8 @@ final class GetPostUseCase
         $this->repository = $repository;
     }
 
-    public function __invoke(int $postId): ?PostEntity
+    public function __invoke(int $id): ?PostEntity
     {
-        return $this->repository->find(new PostId($postId));
+        return $this->repository->find(new PostId($id));
     }
 }

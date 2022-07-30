@@ -16,8 +16,8 @@ final class DeletePostUseCase
         $this->repository = $repository;
     }
 
-    public function __invoke(int $postId): void
+    public function __invoke(int $id): void
     {
-        $this->repository->delete(new PostId($postId));
+        $this->repository->delete(new PostId($id));
     }
 }

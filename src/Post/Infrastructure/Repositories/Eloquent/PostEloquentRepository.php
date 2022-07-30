@@ -40,7 +40,7 @@ final class PostEloquentRepository implements PostRepositoryContract
 
         $result = new PostCollection(...$array);
 
-        // Return Domain User model
+        // Return a collection of Domain Post model
         return $result;
     }
 
@@ -58,48 +58,53 @@ final class PostEloquentRepository implements PostRepositoryContract
         );
     }
 
-    public function findByCriteria(PostTitle $title): ?PostEntity
+    public function search(PostTitle $title): PostCollection
     {
-        $eloquentPost = $this->eloquentModel
-            ->where('title', $title->value())
-            ->firstOrFail();
+        $eloquentPosts = $this->eloquentModel
+            ->where('title', 'like', '%'.$title->value().'%')
+            ->orWhere('content', 'like', '%'.$title->value().'%')
+            ->get();
 
-        // Return Domain User model
-        return new PostEntity(
-            new PostId($eloquentPost->id),
-            new PostTitle($eloquentPost->title),
-            new PostContent($eloquentPost->content),
-            new PostPublished($eloquentPost->is_published),
-            new PostOwner($eloquentPost->user_id),
-        );
+        $array = [];
+        foreach($eloquentPosts as $eloquentPost) {
+            $array[] = new PostEntity(
+                new PostId($eloquentPost->id),
+                new PostTitle($eloquentPost->title),
+                new PostContent($eloquentPost->content),
+                new PostPublished($eloquentPost->is_published),
+                new PostOwner($eloquentPost->user_id),
+            );
+        }
+
+        return new PostCollection(...$array);
     }
 
-    public function save(PostEntity $postEntity): void
+    public function save(PostEntity $post): void
     {
         /*$this->eloquentModel->create([
-            'title'         => $postEntity->title()->value(),
-            'content'       => $postEntity->content()->value(),
-            'is_published'  => $postEntity->is_published()->value(),
-            'user_id'       => $postEntity->user_id()->value(),
+            'title'         => $post->title()->value(),
+            'content'       => $post->content()->value(),
+            'is_published'  => $post->is_published()->value(),
+            'user_id'       => $post->user_id()->value(),
         ]);*/
 
-        $data = $postEntity->toArrayWithoutFields(['id']);
+        $data = $post->toArrayWithoutFields(['id']);
         $this->eloquentModel->create($data);
     }
 
-    public function update(PostId $id, PostEntity $postEntity): void
+    public function update(PostId $id, PostEntity $post): void
     {
         /*$this->eloquentModel
             ->findOrFail($id->value())
             ->update([
-                'title'         => $postEntity->title()->value(),
-                'content'       => $postEntity->content()->value(),
-                'isPublished'   => $postEntity->is_published()->value(),
+                'title'         => $post->title()->value(),
+                'content'       => $post->content()->value(),
+                'isPublished'   => $post->is_published()->value(),
             ]);*/
 
         $this->eloquentModel
             ->findOrFail($id->value())
-            ->update($postEntity->toArrayWithoutFields(['id', 'user_id']));
+            ->update($post->toArrayWithoutFields(['id', 'user_id']));
     }
 
     public function delete(PostId $id): void

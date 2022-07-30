@@ -10,7 +10,7 @@ final class FormGameViewData
 {
     public function __construct(
         public bool $isUpdate,
-        public GameEntity $game,
+        public ?GameEntity $game,
     )
     {
     }

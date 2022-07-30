@@ -13,10 +13,10 @@ use Src\Post\Domain\ValueObjects\PostTitle;
 interface PostRepositoryContract
 {
     public function all(): PostCollection;
-    public function find(PostId $postId): ?PostEntity;
-    public function findByCriteria(PostTitle $postTitle): ?PostEntity;
-    public function save(PostEntity $postEntity): void;
-    public function update(PostId $postId, PostEntity $postEntity): void;
-    public function delete(PostId $postId): void;
-    public function publish(PostId $postId, PostPublished $isPublished): void;
+    public function find(PostId $id): ?PostEntity;
+    public function search(PostTitle $postTitle): PostCollection;
+    public function save(PostEntity $post): void;
+    public function update(PostId $id, PostEntity $post): void;
+    public function delete(PostId $id): void;
+    public function publish(PostId $id, PostPublished $isPublished): void;
 }

@@ -34,25 +34,24 @@ Route::get('/employees', [EmployeeController::class, 'list'])->name('list');
 /* -------------------------------------------------POSTS---------------------------------------------------------- */
 
 // JSON Post Actions
-Route::get('json/post/getAllPosts',             [JsonPostController::class, 'getAllPosts'])->name('json.getAllPosts');
-Route::get('json/post/getPost',                 [JsonPostController::class, 'getPost'])->name('json.getPost');
-Route::get('json/post/getPostByCriteria',       [JsonPostController::class, 'getPostByCriteria'])->name('json.getPostByCriteria');
-Route::post('json/post/createPost',             [JsonPostController::class, 'createPost'])->name('json.createPost');
-Route::put('json/post/updatePost',              [JsonPostController::class, 'updatePost'])->name('json.updatePost');
-Route::put('json/post/publishManyPosts',        [JsonPostController::class, 'publishManyPosts'])->name('json.publishManyPosts');
-Route::delete('json/post/deletePost',           [JsonPostController::class, 'deletePost'])->name('json.deletePost');
+Route::get('json/post/list/{?title}',       [JsonPostController::class, 'getAllPosts'])->name('json.post.getAllPosts');
+Route::get('json/post/show',                [JsonPostController::class, 'findPost'])->name('json.post.findPost');
+Route::post('json/post/create',             [JsonPostController::class, 'createPost'])->name('json.post.createPost');
+Route::put('json/post/update',              [JsonPostController::class, 'updatePost'])->name('json.post.updatePost');
+Route::put('json/post/publishManyPosts',    [JsonPostController::class, 'publishManyPosts'])->name('json.post.publishManyPosts');
+Route::delete('json/post/delete',           [JsonPostController::class, 'deletePost'])->name('json.post.deletePost');
 
 
 /* ---------------------------------------------------------------------------------------------------------------- */
 /* -------------------------------------------------GAMES---------------------------------------------------------- */
 
 // HTTP Post Views
-Route::get('game/list',         [GameController::class, 'getAllPosts'])->name('getAllPosts');
-Route::get('game/{id}',         [GameController::class, 'getPost'])->name('getPost');
-Route::get('game/create',       [GameController::class, 'createForm'])->name('createForm');
-Route::get('game/edit/{id}',    [GameController::class, 'updateForm'])->name('updateForm');
+Route::get('game/list/{?title}',    [GameController::class, 'getAllGames'])->name('game.getAllGames');
+Route::get('game/show/{id}',        [GameController::class, 'findGame'])->name('game.findGame');
+Route::get('game/create',           [GameController::class, 'createForm'])->name('game.createForm');
+Route::get('game/edit/{id}',        [GameController::class, 'updateForm'])->name('game.updateForm');
 // HTTP Post Actions
-Route::post('game/store',       [GameController::class, 'createPost'])->name('createPost');
-Route::put('game/update',       [GameController::class, 'updatePost'])->name('updatePost');
-Route::delete('game/delete',    [GameController::class, 'deletePost'])->name('deletePost');
+Route::post('game/store',           [GameController::class, 'createGame'])->name('game.createGame');
+Route::put('game/update',           [GameController::class, 'updateGame'])->name('game.updateGame');
+Route::delete('game/delete',        [GameController::class, 'deleteGame'])->name('game.deleteGame');
 

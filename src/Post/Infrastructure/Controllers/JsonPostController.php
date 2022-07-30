@@ -5,12 +5,12 @@ namespace Src\Post\Infrastructure\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Src\Post\Application\CreatePostUseCase;
 use Src\Post\Application\DeletePostUseCase;
+use Src\Post\Application\FindPostUseCase;
 use Src\Post\Application\GetAllPostsUseCase;
-use Src\Post\Application\GetPostByCriteriaUseCase;
-use Src\Post\Application\GetPostUseCase;
 use Src\Post\Application\PublishPostUseCase;
+use Src\Post\Application\SearchPostUseCase;
+use Src\Post\Application\StorePostUseCase;
 use Src\Post\Application\UpdatePostUseCase;
 use Src\Post\Infrastructure\Repositories\Eloquent\PostEloquentRepository;
 
@@ -23,75 +23,67 @@ class JsonPostController extends Controller
         $this->repository = $repository;
     }
 
-    public function getAllPosts()
+    public function getAllPosts(?string $title)
     {
         $getAllPostsUseCase = new GetAllPostsUseCase($this->repository);
-        $allPosts     = $getAllPostsUseCase->__invoke();
-    
-        return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['allPosts' => $allPosts->toArray()]), Response::HTTP_OK);
+        $searchPostUseCase = new SearchPostUseCase($this->repository);
+        $posts = (!is_null($title)) ? $searchPostUseCase($title) : $getAllPostsUseCase();
+        
+        return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['allPosts' => $posts->toArray()]), Response::HTTP_OK);
         //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['allPosts' => $allPosts->toArray()]], Response::HTTP_OK);
     }
 
-    public function getPost($id)
+    public function findPost(int $id)
     {
-        $getPostUseCase = new GetPostUseCase($this->repository);
+        $getPostUseCase = new FindPostUseCase($this->repository);
         $postEntity     = $getPostUseCase->__invoke($id);
     
-        return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['post' => $postEntity]), Response::HTTP_OK);
-        //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['post' => $postEntity]], Response::HTTP_OK);
-    }
-
-    public function getPostByCriteria($title)
-    {
-        $getPostByCriteriaUseCase   = new GetPostByCriteriaUseCase($this->repository);
-        $postEntity                 = $getPostByCriteriaUseCase->__invoke($title);
-        
         return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['post' => $postEntity]), Response::HTTP_OK);
         //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['post' => $postEntity]], Response::HTTP_OK);
     }
 
     public function createPost(Request $request)
     {
-        $postTitle          = $request->input('title');
-        $postContent        = $request->input('content');
-        $postIsPublished    = $request->input('is_published') ?? false;
-        $postUserId         = $request->input('user_id') ?? 1;
+        $title          = $request->input('title');
+        $content        = $request->input('content');
+        $is_published   = $request->input('is_published') ?? false;
+        $user_id        = $request->input('user_id') ?? 1;
 
-        $createPostUseCase = new CreatePostUseCase($this->repository);
-        $createPostUseCase->__invoke(
-            $postTitle,
-            $postContent,
-            $postIsPublished,
-            $postUserId
+        $storePostUseCase = new StorePostUseCase($this->repository);
+        $storePostUseCase(
+            $title,
+            $content,
+            $is_published,
+            $user_id
         );
 
-        $getPostByCriteriaUseCase = new GetPostByCriteriaUseCase($this->repository);
-        $newPost                  = $getPostByCriteriaUseCase->__invoke($postTitle);
+        $searchPostUseCase = new SearchPostUseCase($this->repository);
+        $newPost = $searchPostUseCase($title)->first();
 
         return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['post' => $newPost]), Response::HTTP_OK);
         //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['post' => $newPost]], Response::HTTP_OK);
     }
 
-    public function updatePost(Request $request, $id)
+    public function updatePost(Request $request, int $id)
     {
-        $getPostUseCase = new GetPostUseCase($this->repository);
-        $postEntity     = $getPostUseCase->__invoke($id);
+        $findPostUseCase = new FindPostUseCase($this->repository);
+        $postEntity = $findPostUseCase($id);
 
-        $postTitle          = $request->input('name') ?? $postEntity->title()->value();
-        $postContent        = $request->input('email') ?? $postEntity->content()->value();
-        $postIsPublished    = $postEntity->is_published()->value();
-        $postUserId         = $postEntity->user_id()->value();
+        $title          = $request->input('title') ?? $postEntity->title()->value();
+        $content        = $request->input('content') ?? $postEntity->content()->value();
+        $is_published   = $postEntity->is_published()->value();
+        $user_id        = $postEntity->user_id()->value();
 
         $updatePostUseCase = new UpdatePostUseCase($this->repository);
         $updatePostUseCase->__invoke(
             $id,
-            $postTitle,
-            $postContent,
-            $postIsPublished,
-            $postUserId
+            $title,
+            $content,
+            $is_published,
+            $user_id
         );
 
-        $updatedPost = $getPostUseCase->__invoke($id);
+        $updatedPost = $findPostUseCase($id);
 
         return response()->json(arrayJsonResponse(statusCode: 0, message: 'success', data: ['post' => $updatedPost]), Response::HTTP_OK);
         //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => ['post' => $updatedPost]], Response::HTTP_OK);
@@ -105,22 +97,17 @@ class JsonPostController extends Controller
         $publishPostUseCase = new PublishPostUseCase($this->repository);
 
         foreach ($posts as $post) {
-            $publishPostUseCase->__invoke(
-                $post['id'],
-                $post['is_published']
-            );
+            $publishPostUseCase($post['id'],$post['is_published']);
         }
 
         return response()->json(arrayJsonResponse(statusCode: 0, message: 'Success', data: []), Response::HTTP_OK);
         //return response()->json(['statusCode' => 0, 'message' => 'success', 'data' => []], Response::HTTP_OK);
     }
 
-    public function deletePost(Request $request)
+    public function deletePost(int $id)
     {
-        $postId = (int)$request->id;
-
         $deletePostUseCase = new DeletePostUseCase($this->repository);
-        $deletePostUseCase->__invoke($postId);
+        $deletePostUseCase->__invoke($id);
     }
 
 }

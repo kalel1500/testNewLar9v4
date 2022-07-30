@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Src\Post\Application;
 
 use Src\Post\Domain\Contracts\PostRepositoryContract;
-use Src\Post\Domain\PostEntity;
+use Src\Post\Domain\ValueObjects\PostCollection;
 use Src\Post\Domain\ValueObjects\PostTitle;
 
-final class GetPostByCriteriaUseCase
+final class SearchPostUseCase
 {
     private $repository;
 
@@ -17,8 +17,8 @@ final class GetPostByCriteriaUseCase
         $this->repository = $repository;
     }
 
-    public function __invoke(string $title): ?PostEntity
+    public function __invoke(string $title): PostCollection
     {
-        return $this->repository->findByCriteria(new PostTitle($title));
+        return $this->repository->search(new PostTitle($title));
     }
 }
